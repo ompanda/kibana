@@ -23,6 +23,7 @@ define(function (require) {
       'Shaded Circle Markers': Private(require('ui/vislib/visualizations/marker_types/shaded_circles')),
       'Shaded Geohash Grid': Private(require('ui/vislib/visualizations/marker_types/geohash_grid')),
       'Heatmap': Private(require('ui/vislib/visualizations/marker_types/heatmap')),
+      'Chloropleth': Private(require('ui/vislib/visualizations/marker_types/chloropleth'))
     };
 
     /**
@@ -64,7 +65,7 @@ define(function (require) {
       var self = this;
       var drawOptions = { draw: {} };
 
-      _.each(['polyline', 'polygon', 'circle', 'marker', 'rectangle'], function (drawShape) {
+      _.each(['polyline', 'polygon', 'circle', 'marker', 'rectangle', 'geometry'], function (drawShape) {
         if (self._events && !self._events.listenerCount(drawShape)) {
           drawOptions.draw[drawShape] = false;
         } else {
@@ -278,6 +279,7 @@ define(function (require) {
       this.map = L.map(this._container, mapOptions);
       this._attachEvents();
       this._addMarkers();
+
     };
 
     /**

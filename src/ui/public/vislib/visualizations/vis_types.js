@@ -14,7 +14,8 @@ define(function (require) {
       pie: Private(require('ui/vislib/visualizations/pie_chart')),
       line: Private(require('ui/vislib/visualizations/line_chart')),
       area: Private(require('ui/vislib/visualizations/area_chart')),
-      tile_map: Private(require('ui/vislib/visualizations/tile_map'))
+      tile_map: Private(require('ui/vislib/visualizations/tile_map')),
+      fill_map: Private(require('ui/vislib/visualizations/fill_map'))
     };
   };
 });

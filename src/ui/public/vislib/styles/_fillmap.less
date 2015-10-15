@@ -1,11 +1,11 @@
 @import (reference) "~ui/styles/variables";
 
-/* _tilemap */
+/* _fillmap */
 
-.tilemap {
+.fillmap {
   margin-bottom: 6px;
   border: 1px solid;
-  border-color: @tilemap-border;
+  border-color: @fillmap-border;
   position: relative;
 }
 /* chloropeth */
@@ -23,21 +23,33 @@
 }
 /* leaflet Dom Util div for map label */
 
-.tilemap-legend {
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.fillmap-legend {
   padding: 5px 7px 5px 7px;
   margin: 0;
   font: 11px/13px Arial, Helvetica, sans-serif;
-  background: @tilemap-legend-base-bg;
-  background: @tilemap-legend-bg;
+  background: @fillmap-legend-base-bg;
+  background: @fillmap-legend-bg;
   box-shadow: 0 0 12px rgba(0,0,0,0.3);
   border-radius: 5px;
   text-align: left;
   line-height: 15px;
-  color: @tilemap-color;
+  color: @fillmap-color;
 }
 
 
-.tilemap-legend i {
+.fillmap-legend i {
   width: 10px;
   height: 10px;
   float: left;
@@ -46,42 +58,42 @@
   border-radius: 50%;
   border-width: 1px;
   border-style: solid;
-  border-color: @tilemap-legend-i-border;
-  background: @tilemap-legend-i-bg;
+  border-color: @fillmap-legend-i-border;
+  background: @fillmap-legend-i-bg;
 }
 
 
 /* leaflet Dom Util div for map legend */
 
-.tilemap-info {
+.fillmap-info {
   padding: 3px 7px 3px 7px;
   margin: 0;
   font-size: 12px;
-  background: @tilemap-info-base-bg;
-  background: fade(@tilemap-info-bg, 92%);
+  background: @fillmap-info-base-bg;
+  background: fade(@fillmap-info-bg, 92%);
   box-shadow: 0 0 12px rgba(0,0,0,0.3);
   border-radius: 5px;
 }
 
-.tilemap-info h2 {
+.fillmap-info h2 {
   font-size: 12px !important;
   margin: 0 !important;
   padding: 0;
-  color: @tilemap-info-header-color;
+  color: @fillmap-info-header-color;
 }
 
 .leaflet-control-fit {
   text-align: center;
-  background: @tilemap-leaflet-control-bg;
+  background: @fillmap-leaflet-control-bg;
   width: 26px;
   height: 26px;
-  outline: 1px @tilemap-leaflet-control-outline;
+  outline: 1px @fillmap-leaflet-control-outline;
 }
 
 /* over-rides leaflet popup styles to look like kibana tooltip */
 
 .leaflet-container {
-  background: @tilemap-leaflet-container-bg !important;
+  background: @fillmap-leaflet-container-bg !important;
   outline: 0 !important;
 }
 
@@ -132,13 +144,13 @@
     // those in the body
     thead tr {
       border-bottom: 1px solid;
-      border-bottom-color: @tilemap-leaflet-popup-border;
+      border-bottom-color: @fillmap-leaflet-popup-border;
     }
 
     // only apply to tr in the body, not the header
     tbody tr {
       border-top: 1px solid;
-      border-top-color: @tilemap-leaflet-popup-border;
+      border-top-color: @fillmap-leaflet-popup-border;
       &:first-child {
         border-top: none;
       }
@@ -168,27 +180,27 @@
 }
 
 .leaflet-control-attribution {
-  background-color: @tilemap-leaflet-footer-bg !important;
-  color: @tilemap-leaflet-footer-color !important;
+  background-color: @fillmap-leaflet-footer-bg !important;
+  color: @fillmap-leaflet-footer-color !important;
 }
 
 .leaflet-left {
   .leaflet-control {
     a,
     a:hover {
-      color: @tilemap-leaflet-control-color;
+      color: @fillmap-leaflet-control-color;
     }
   }
 
   .leaflet-draw-actions a {
-    background-color: @tilemap-leaflet-control-draw-action-bg;
+    background-color: @fillmap-leaflet-control-draw-action-bg;
   }
 }
 
 /* filter to desaturate mapquest tiles */
 
 img.leaflet-tile {
-  filter: @tilemap-filter;
+  filter: @fillmap-filter;
 }
 
 img.leaflet-tile.filters-off {

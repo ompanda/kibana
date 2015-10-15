@@ -12,7 +12,8 @@ define(function (require) {
       line: pointSeries.line,
       pie: Private(require('ui/vislib/lib/handler/types/pie')),
       area: pointSeries.area,
-      tile_map: Private(require('ui/vislib/lib/handler/types/tile_map'))
+      tile_map: Private(require('ui/vislib/lib/handler/types/tile_map')),
+      fill_map: Private(require('ui/vislib/lib/handler/types/fill_map'))
     };
   };
 });

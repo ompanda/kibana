@@ -24,7 +24,7 @@ define(function (require) {
           heatNormalizeData: true,
           wms: config.get('visualization:tileMap:WMSdefaults')
         },
-        mapTypes: ['Scaled Circle Markers', 'Shaded Circle Markers', 'Shaded Geohash Grid', 'Heatmap'],
+        mapTypes: ['Scaled Circle Markers', 'Shaded Circle Markers', 'Shaded Geohash Grid', 'Heatmap', 'Chloropleth'],
         canDesaturate: !!supports.cssFilters,
         editor: require('plugins/kbn_vislib_vis_types/editors/tile_map.html')
       },
@@ -118,7 +118,15 @@ define(function (require) {
           title: 'Split Chart',
           min: 0,
           max: 1
-        }
+        },
+        {
+          group: 'buckets',
+          name: 'segment',
+          title: 'Chloropleth',
+          aggFilter: '!geohash_grid',
+          min: 0,
+          max: 1
+        },
       ])
     });
   };
