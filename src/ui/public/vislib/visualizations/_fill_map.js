@@ -301,7 +301,7 @@ define(function (require) {
       [-13.246378,8.493149],[-13.241615,8.489011],[-13.234062,8.491388],[-13.229598,8.48935],[-13.222389,8.491048],[-13.214149,8.494444],[-13.204193,8.491048],[-13.202819,8.484257],[-13.199043,8.48154],[-13.194236,8.482559],[-13.18737,8.481201],[-13.181877,8.477465],[-13.17398,8.471013],
       [-13.169517,8.463203],[-13.167457,8.456072]]],"type":"Polygon"},"id":"fba8316a75c8692f69cbb354676e9b09"}],"id":"bayohi90.njkj115a"};
    //this._chartData = chartData;
-
+      var chartData = chartData;
       chartValues = chartData.series[0].values
       saloneData.features = _.map(saloneData.features, function (feature) {
         var matchingColumn = _.get(feature.properties, 'id');
@@ -331,14 +331,15 @@ define(function (require) {
       info.addTo(this.map);
 
       function getColor(d) {
-        return d > 100000 ? '#800026' :
-          d > 75000 ? '#BD0026' :
-          d > 50000 ? '#E31A1C' :
-          d > 25000 ? '#FC4E2A' :
-          d > 12500 ? '#FD8D3C' :
-          d > 6250 ? '#FEB24C' :
-          d > 10 ? '#FED976' :
-          d > 0 ? '#FFEDA0' 
+        return '#800026' ;
+        //d > 100000 ? '#800026' :
+          //d > 75000 ? '#BD0026' :
+          //d > 50000 ? '#E31A1C' :
+          //d > 25000 ? '#FC4E2A' :
+          //d > 12500 ? '#FD8D3C' :
+          //d > 6250 ? '#FEB24C' :
+          //d > 10 ? '#FED976' :
+          //d > 0 ? '#FFEDA0' :
       };
       function style(feature) {
         return {
@@ -437,5 +438,4 @@ define(function (require) {
     };
 
     return FillMapMap;
-  };
 });
