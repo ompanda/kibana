@@ -279,7 +279,7 @@ define(function (require) {
         }).properties.count;
 
         this._rainbow.setNumberRange(min, max);
-        this._rainbow.setSpectrum('red', 'yellow');
+        this._rainbow.setSpectrum('skyblue', 'blue');
 
       }
 
