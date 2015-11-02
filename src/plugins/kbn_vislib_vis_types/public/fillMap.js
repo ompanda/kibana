@@ -15,6 +15,11 @@ define(function (require) {
         defaults: {
           isDesaturated: true,
           addTooltip: true,
+          MinColor: 'green',
+          MaxColor: 'yellow',
+          AddTitle: true,
+          StepNumber: 4,
+          setZoom: 5,
           wms: config.get('visualization:tileMap:WMSdefaults')
         },
         canDesaturate: !!supports.cssFilters,

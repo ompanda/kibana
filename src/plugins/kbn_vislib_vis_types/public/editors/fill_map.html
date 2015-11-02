@@ -1,35 +1,149 @@
 <!-- vis type specific options -->
 
+
 <div class="vis-option-item form-group">
+  <fieldset>
+    <legend>Coloring</legend>
+    <label>
+      Min Color
+      <input type="textinput"
+      name="MinColor"
+      ng-model="vis.params.MinColor">
+
+      <kbn-info info="set the min fill colors"></kbn-info>
+    </label>
+    <label>
+      Max Color
+      <input type="textinput"
+      name="MaxColor"
+      ng-model="vis.params.MaxColor">
+
+      <kbn-info info="set the max fill colors"></kbn-info>
+    </label>
+  </fieldset>
+</div>
+
+<div class="vis-option-item form-group" align="Left">
+  <fieldset>
+    <legend>Shapes</legend>
+    <span class="hintbox-label" ng-click="showJsonHint = !showJsonHint">
+      <label>GeoJson</label>
+      <i class="fa fa-info-circle"></i>
+    </span>
+    <div class="hintbox" ng-show="showJsonHint">
+      <p>
+        Paste your json data to generate fills</i> on a <i>terms</i> map
+      </p>
+    </div>
+  <p>
+    <textarea
+      type="text"
+      name="GeoJson"
+      class="form-control"
+      ng-model="vis.params.GeoJson"
+      validate-json
+      ></textarea>
+  </p>
   <label>
-    <input type="checkbox"
-    name="isDesaturated"
-    ng-disabled="!vis.type.params.canDesaturate"
-    ng-model="vis.params.isDesaturated">
+    Match ID
+    <input type="textinput"
+    name="idmatch"
+    ng-model="vis.params.idmatch">
 
-    Desaturate map tiles
-
-    <kbn-info info="Reduce the vibrancy of tile colors, this does not work in any version of Internet Explorer"></kbn-info>
+    <kbn-info info="set the max fill colors"></kbn-info>
   </label>
+      <!-- <fieldset>
+        <label>
+          <legend>Map View</legend>
+          Set Map View
+          <input type="textinput"
+          name="setView"
+          ng-model="vis.params.setview">
+        </label>
+        <label>
+          Zoom
+          <input type="number"
+          name="setZoom"
+          ng-model="vis.params.setZoom">
+
+          <kbn-info info="Paste in the geo-coordinate for default Map View"></kbn-info>
+        </label>
+      </fieldset> -->
+  </fieldset>
 </div>
 
 <div class="vis-option-item form-group">
-  <label>
-    <input type="checkbox"
-    name="wms.enabled"
-    ng-model="vis.params.wms.enabled">
+  <fieldset>
+    <legend>Legend</legend>
+    <label>
+          Number of Steps
+      <input type="number"
+      name="StepNumber"
+      class="from-control"
+      ng-model="vis.params.StepNumber">
 
-    WMS compliant map server
+      <kbn-info info="Number of Steps"></kbn-info>
+    </label>
 
-    <kbn-info info="Use WMS compliant map tile server. For advanced users only."></kbn-info>
-  </label>
+    <label>
+          Roundup number
+      <input type="number"
+      name="roundNumber"
+      class="from-control"
+      ng-model="vis.params.roundNumber">
+
+      <kbn-info info="set roundup number"></kbn-info>
+    </label>
+  </fieldset>
+</div>
+
+<div class="vis-option-item form-group">
+  <fieldset>
+    <legend>Labels</legend>
+    <label>
+    Highlight Format
+
+      <input type="textinput"
+      name="highlightsFormat"
+      ng-model="vis.params.highlightsFormat">
+
+      <kbn-info info="Set the label info."></kbn-info>
+    </label>
+    <label>
+      Label Format
+
+      <input type="textinput"
+      name="labelFormat"
+      ng-model="vis.params.labelFormat">
+
+      <kbn-info info="Set the label info."></kbn-info>
+    </label>
+
+    <!-- <label>
+      Label Text color
+      <input type="textinput"
+      name="labelColor"
+      ng-model="vis.params.labelColor">
+
+      <kbn-info info="Set the label info."></kbn-info>
+    </label>
+
+    <label>
+      Label Text Size
+      <input type="number"
+      name="labelSize"
+      ng-model="vis.params.labelSize">
+
+      <kbn-info info="Set the label info."></kbn-info>
+    </label> -->
+  </fieldset>
 </div>
 
 <div ng-show="vis.params.wms.enabled" class="well">
   <div class="vis-option-item form-group">
-    
+
     <p>
-      WMS maps are 3rd party mapping services that have not been verified to work with Kibana. 
+      WMS maps are 3rd party mapping services that have not been verified to work with Kibana.
       These should be considered expert settings.
     </p>
 
@@ -38,7 +152,7 @@
     </label>
     <input type="text" class="form-control"
       name="wms.url"
-      ng-model="vis.params.wms.url">    
+      ng-model="vis.params.wms.url">
   </div>
 
   <div class="vis-option-item form-group">
@@ -47,7 +161,7 @@
     </label>
     <input type="text" class="form-control"
       ng-require="vis.params.wms.enabled"
-      ng-model="vis.params.wms.options.layers"   
+      ng-model="vis.params.wms.options.layers"
       name="wms.options.layers">
   </div>
 
@@ -57,7 +171,7 @@
     </label>
     <input type="text" class="form-control"
       name="wms.options.version"
-      ng-model="vis.params.wms.options.version">    
+      ng-model="vis.params.wms.options.version">
   </div>
 
   <div class="vis-option-item form-group">
@@ -66,16 +180,16 @@
     </label>
     <input type="text" class="form-control"
       name="wms.options.format"
-      ng-model="vis.params.wms.options.format">    
+      ng-model="vis.params.wms.options.format">
   </div>
-  
+
   <div class="vis-option-item form-group">
     <label>
       WMS attribution <kbn-info info="Attribution string for the lower right corner<"></kbn-info>
     </label>
     <input type="text" class="form-control"
       name="wms.options.attribution"
-      ng-model="vis.params.wms.options.attribution">    
+      ng-model="vis.params.wms.options.attribution">
   </div>
 
   <div class="vis-option-item form-group">
@@ -84,7 +198,7 @@
     </label>
     <input type="text" class="form-control"
       name="wms.options.styles"
-      ng-model="vis.params.wms.options.styles">    
+      ng-model="vis.params.wms.options.styles">
   </div>
 
   <p>* if this parameter is incorrect, maps will fail to load.</p>
