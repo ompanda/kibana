@@ -128,7 +128,6 @@ define(function (require) {
         this._div.innerHTML = '<h2>' + _.escape(mapLabel) + '</h2>';
       };
 
-      // label.addTo(this.map);
       this.map.addControl(label);
     };
 
@@ -374,9 +373,6 @@ define(function (require) {
 
     FillMapMap.prototype._addShapes = function (chartData) {
       var self = this;
-
-      // var url = "https://dl.dropboxusercontent.com/u/19282151/SLE_adm2.json";
-
       var url = self._attr.geoJsonUrl;
       $.ajax({
         type: 'GET',
@@ -400,7 +396,6 @@ define(function (require) {
             });
           }
           self._addGeoJson(features);
-          //self._fitBounds();
         },
         error: function(e) {
          console.log(e);
@@ -432,7 +427,6 @@ define(function (require) {
 
       this.map = L.map(this._container, mapOptions).setView([8.7703686,-11.8564844], this._attr.setZoom);
       this._attachEvents();
-      //var saloneData = $.parseJSON(this._attr.GeoJson);
 
       if (chartData) {
         this._rainbow = new Rainbow;
@@ -450,11 +444,6 @@ define(function (require) {
         this.addLegend();
         this._addHighlights();
       }
-
-
-
-      //console.log(this.addLegend);
-
       this.map.attributionControl.addAttribution(
         'Total Calls &copy; <a herf="http://census.gov/>117 call Center</a>"'
       );
