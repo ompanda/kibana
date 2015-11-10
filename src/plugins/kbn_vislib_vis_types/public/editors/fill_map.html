@@ -7,16 +7,16 @@
     <label>
       Min Color
       <input type="textinput"
-      name="MinColor"
-      ng-model="vis.params.MinColor">
+      name="minColor"
+      ng-model="vis.params.minColor">
 
       <kbn-info info="set the min fill colors"></kbn-info>
     </label>
     <label>
       Max Color
       <input type="textinput"
-      name="MaxColor"
-      ng-model="vis.params.MaxColor">
+      name="maxColor"
+      ng-model="vis.params.maxColor">
 
       <kbn-info info="set the max fill colors"></kbn-info>
     </label>
@@ -27,22 +27,22 @@
   <fieldset>
     <legend>Shapes</legend>
     <span class="hintbox-label" ng-click="showJsonHint = !showJsonHint">
-      <label>GeoJson</label>
+      <label>GeoJson url</label>
       <i class="fa fa-info-circle"></i>
     </span>
     <div class="hintbox" ng-show="showJsonHint">
       <p>
-        Paste your json data to generate fills</i> on a <i>terms</i> map
+        Paste your url to json data</i> its best that file is hosted in the same domain <i>for quick loading</i> map
       </p>
     </div>
   <p>
-    <textarea
+    <input
       type="text"
-      name="GeoJson"
+      name="geoJsonUrl"
       class="form-control"
-      ng-model="vis.params.GeoJson"
+      ng-model="vis.params.geoJsonUrl"
       validate-json
-      ></textarea>
+      ></input>
   </p>
   <label>
     Match ID
@@ -78,9 +78,9 @@
     <label>
           Number of Steps
       <input type="number"
-      name="StepNumber"
+      name="stepNumber"
       class="from-control"
-      ng-model="vis.params.StepNumber">
+      ng-model="vis.params.stepNumber">
 
       <kbn-info info="Number of Steps"></kbn-info>
     </label>

@@ -161,6 +161,9 @@ define(function (require) {
       if (this._label) this._label.removeFrom(this.map);
       if (this._fitControl) this._fitControl.removeFrom(this.map);
       if (this._boundingControl) this._boundingControl.removeFrom(this.map);
+      if (this._legend) this._legend.removeFrom(this.map);
+      if (this._info) this._info.removeFrom(this.map);
+
       this.map.remove();
       this.map = undefined;
     };
@@ -227,21 +230,21 @@ define(function (require) {
     };
 
     FillMapMap.prototype.addLegend = function() {
-      var legend = L.control({
+      this._legend = L.control({
         position: 'bottomright'
       });
       var self = this;
-      legend.onAdd = function (map) {
+      this._legend.onAdd = function (map) {
 
         var div = L.DomUtil.create('div', 'info legend'),
             labels = [];
         // loop through our density intervals and generate a label with a colored square for each interval
 
-        var stepNumber = self._attr.StepNumber;
+        var stepNumber = self._attr.stepNumber;
         var steps = stepNumber;
         var round = self._attr.roundNumber;
         var stepSize = (self._max - self._min) / (steps-1);
-        console.log(this);
+        //console.log(this);
         for (var i = 0; i < steps; i++) {
           from = Math.round((self._min + stepSize * i) / round) * round;
           to = i < steps-1 ? Math.round((self._min + stepSize * (i+1)) / round) * round : 0;
@@ -252,12 +255,14 @@ define(function (require) {
         div.innerHTML = labels.join('');
         return div;
       };
-      legend.addTo(self.map);
+      this._legend.addTo(self.map);
 
     };
 
 
     FillMapMap.prototype._getColor = function(value) {
+      if (!value)
+        return;
       var color = '#' + this._rainbow.colourAt(value);
       return color;
     };
@@ -271,92 +276,29 @@ define(function (require) {
       }
     };
 
-    FillMapMap.prototype._createMap = function (mapOptions, chartData) {
-      if (this.map) this.destroy();
+    FillMapMap.prototype._addHighlights = function() {
       var self = this;
 
-      // var url = "https://dl.dropboxusercontent.com/u/19282151/SLE_adm2.json";
-      // $.ajax({
-      //   type: 'GET',
-      //   url: url,
-      //   async: false,
-      //   jsonpCallback: 'geoJsonCallback',
-      //   contentType: "application/json",
-      //   dataType: 'jsonp',
-      //   success: function(json) {
-      //     }
-      //      console.log(json);
-      //   },
-      //   error: function(e) {
-      //      console.log(e);
-      //   }
-      // });
-
-
-      // get center and zoom from mapdata, or use defaults
-      this._mapCenter = _.get(this._geoJson, 'properties.center') || defaultMapCenter;
-      this._mapZoom = _.get(this._geoJson, 'properties.zoom') || defaultMapZoom;
-
-      // add map tiles layer, using the mapTiles object settings
-      if (this._attr.wms && this._attr.wms.enabled) {
-        this._tileLayer = L.tileLayer.wms(this._attr.wms.url, this._attr.wms.options);
-      } else {
-        this._tileLayer = L.tileLayer(mapTiles.url, mapTiles.options);
-      }
-
-      // append tile layers, center and zoom to the map options
-      mapOptions.layers = this._tileLayer;
-      mapOptions.center = this._mapCenter;
-      mapOptions.zoom = this._mapZoom;
-
-      this.map = L.map(this._container, mapOptions).setView([8.7703686,-11.8564844], this._attr.setZoom);
-      this._attachEvents();
-      console.log(this._attr.setView);
-      var saloneData = $.parseJSON(this._attr.GeoJson);
-      if (chartData) {
-        chartValues = chartData.series[0].values
-        saloneData.features = _.map(saloneData.features, function (feature) {
-          var matchingColumn = _.get(feature.properties, self._attr.idmatch);
-          chartItem = _.find(chartValues, {
-            x: matchingColumn
-          });
-          feature.properties.count = _.has(chartItem, 'y') ? chartItem.y : 0;
-          return feature;
-        });
-
-        this._rainbow = new Rainbow;
-
-        this._min = _.min(chartData.series[0].values, function(value){
-          return value.y;
-        }).y;
-        this._max = _.max(chartData.series[0].values, function(value){
-          return value.y;
-        }).y;
-
-        this._rainbow.setNumberRange(this._min, this._max);
-        this._rainbow.setSpectrum(this._attr.MinColor, this._attr.MaxColor);
-        console.log(this._attr.StepNumber);
-
-      }
-
-
       // control that shows state info on hover
-      var info = L.control();
+      this._info = L.control();
 
-      info.onAdd = function (map) {
+      this._info.onAdd = function (map) {
         this._div = L.DomUtil.create('div', 'info');
         this.update();
         return this._div;
       };
 
-      info.update = function (props) {
+      this._info.update = function (props) {
         this._div.innerHTML =  (props ?
           self._format( self._attr.highlightsFormat , props)
           : 'Hover over a shape to show details');
       };
 
-      info.addTo(this.map);
+      this._info.addTo(this.map);
+    }
 
+    FillMapMap.prototype._addGeoJson = function (features) {
+      var self = this;
 
       function style(feature) {
         return {
@@ -376,12 +318,12 @@ define(function (require) {
           dashArray: '*',
           fillOpacity: 0.7
         });
-        info.update(layer.feature.properties)
+        self._info.update(layer.feature.properties)
       };
 
       function resetHighlight(layer) {
         self._geoJson.resetStyle(layer);
-        info.update();
+        self._info.update();
       };
 
       var zoomToFeature = function zoomTofeature(e) {
@@ -414,22 +356,108 @@ define(function (require) {
           mouseover: function(e) {
             highlightFeature(e.target.layer);
           },
-          click: zoomToFeature,
+          mouseout: function(e){
+            resetHighlight(e.target.layer);
+          },
+          //click: zoomToFeature,
         });
         label.addTo(self.map);
       };
 
-      this._geoJson = L.geoJson(saloneData, {
+      this._geoJson = L.geoJson(features, {
         style: style,
         onEachFeature: onEachFeature
       });
+
       this._geoJson.addTo(this.map);
+    }
+
+    FillMapMap.prototype._addShapes = function (chartData) {
+      var self = this;
+
+      // var url = "https://dl.dropboxusercontent.com/u/19282151/SLE_adm2.json";
+
+      var url = self._attr.geoJsonUrl;
+      $.ajax({
+        type: 'GET',
+        url: url,
+        async: false,
+        jsonpCallback: 'geoJsonCallback',
+        contentType: "application/json",
+        cache: true,
+        dataType: 'jsonp',
+        success: function(json) {
+          var features = json.features;
+          if (chartData) {
+            chartValues = chartData.series[0].values
+            features = _.map(features, function (feature) {
+              var matchingColumn = _.get(feature.properties, self._attr.idmatch);
+              chartItem = _.find(chartValues, {
+                x: matchingColumn
+              });
+              feature.properties.count = _.has(chartItem, 'y') ? chartItem.y : 0;
+              return feature;
+            });
+          }
+          self._addGeoJson(features);
+          //self._fitBounds();
+        },
+        error: function(e) {
+         console.log(e);
+        }
+      });
+    };
+
+    FillMapMap.prototype._createMap = function (mapOptions, chartData) {
+      if (this.map) this.destroy();
+      var self = this;
+
+      this._addShapes(chartData);
+
+      // get center and zoom from mapdata, or use defaults
+      this._mapCenter = _.get(this._geoJson, 'properties.center') || defaultMapCenter;
+      this._mapZoom = _.get(this._geoJson, 'properties.zoom') || defaultMapZoom;
+
+      // add map tiles layer, using the mapTiles object settings
+      if (this._attr.wms && this._attr.wms.enabled) {
+        this._tileLayer = L.tileLayer.wms(this._attr.wms.url, this._attr.wms.options);
+      } else {
+        this._tileLayer = L.tileLayer(mapTiles.url, mapTiles.options);
+      }
+
+      // append tile layers, center and zoom to the map options
+      mapOptions.layers = this._tileLayer;
+      mapOptions.center = this._mapCenter;
+      mapOptions.zoom = this._mapZoom;
+
+      this.map = L.map(this._container, mapOptions).setView([8.7703686,-11.8564844], this._attr.setZoom);
+      this._attachEvents();
+      //var saloneData = $.parseJSON(this._attr.GeoJson);
+
+      if (chartData) {
+        this._rainbow = new Rainbow;
+
+        this._min = _.min(chartData.series[0].values, function(value){
+          return value.y;
+        }).y;
+        this._max = _.max(chartData.series[0].values, function(value){
+          return value.y;
+        }).y;
+
+        this._rainbow.setNumberRange(this._min, this._max);
+        this._rainbow.setSpectrum(this._attr.minColor, this._attr.maxColor);
+
+        this.addLegend();
+        this._addHighlights();
+      }
+
+
+
+      //console.log(this.addLegend);
 
       this.map.attributionControl.addAttribution(
         'Total Calls &copy; <a herf="http://census.gov/>117 call Center</a>"'
       );
-
-      this.addLegend();
 
     };
 
