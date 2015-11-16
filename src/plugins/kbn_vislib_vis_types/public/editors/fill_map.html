@@ -6,7 +6,7 @@
     <legend>Coloring</legend>
     <label>
       Min Color
-      <input type="textinput"
+      <input type="color"
       name="minColor"
       ng-model="vis.params.minColor">
 
@@ -14,7 +14,7 @@
     </label>
     <label>
       Max Color
-      <input type="textinput"
+      <input type="color"
       name="maxColor"
       ng-model="vis.params.maxColor">
 
@@ -26,49 +26,32 @@
 <div class="vis-option-item form-group" align="Left">
   <fieldset>
     <legend>Shapes</legend>
-    <span class="hintbox-label" ng-click="showJsonHint = !showJsonHint">
-      <label>GeoJson url</label>
-      <i class="fa fa-info-circle"></i>
-    </span>
+      <span class="hintbox-label" ng-click="showJsonHint = !showJsonHint">
+        <label>GeoJson url</label>
+        <i class="fa fa-info-circle"></i>
+      </span>
     <div class="hintbox" ng-show="showJsonHint">
       <p>
         Paste your url to json data</i> its best that file is hosted in the same domain <i>for quick loading</i> map
       </p>
     </div>
-  <p>
-    <input
-      type="text"
-      name="geoJsonUrl"
-      class="form-control"
-      ng-model="vis.params.geoJsonUrl"
-      validate-json
-      ></input>
-  </p>
-  <label>
-    Match ID
-    <input type="textinput"
-    name="idmatch"
-    ng-model="vis.params.idmatch">
+    <p>
+      <input
+        type="url"
+        name="geoJsonUrl"
+        class="form-control"
+        ng-model="vis.params.geoJsonUrl"
+        validate-json
+        ></input>
+    </p>
+    <label>
+      Match ID
+      <input type="textinput"
+      name="idmatch"
+      ng-model="vis.params.idmatch">
 
-    <kbn-info info="set the max fill colors"></kbn-info>
-  </label>
-      <!-- <fieldset>
-        <label>
-          <legend>Map View</legend>
-          Set Map View
-          <input type="textinput"
-          name="setView"
-          ng-model="vis.params.setview">
-        </label>
-        <label>
-          Zoom
-          <input type="number"
-          name="setZoom"
-          ng-model="vis.params.setZoom">
-
-          <kbn-info info="Paste in the geo-coordinate for default Map View"></kbn-info>
-        </label>
-      </fieldset> -->
+      <kbn-info info="set the max fill colors"></kbn-info>
+    </label>
   </fieldset>
 </div>
 
